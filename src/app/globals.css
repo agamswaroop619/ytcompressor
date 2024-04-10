@@ -52,6 +52,6 @@ body {
   }
   .grid-container > * {
     width: 100%;
-    height: 50vh; /* 50% height in vertical orientation */
+    min-height: 100vh; /* 50% height in vertical orientation */
   }
 }
