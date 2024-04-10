@@ -2,6 +2,6 @@ import React from "react";
 
 type Props = {};
 
-export default function file_input({}: Props) {
-  return <div></div>;
+export default function form({}: Props) {
+  return <div className="font-medium text-gray-900 dark:text-white">Hello</div>;
 }
