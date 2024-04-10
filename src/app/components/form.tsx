@@ -22,10 +22,10 @@ export default function Form({}: Props) {
     <div className="flex justify-center items-center h-screen bg-gray-800 dark:bg-white">
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-white dark:bg-gray-800 p-12 rounded-[10%]"
+        className="bg-white dark:bg-gray-800 p-12 rounded-lg"
       >
         <div style={styles.formGroup}>
-          <h2 className="text-center text-xl font-bold pb-4">
+          <h2 className="text-center text-xl font-bold pb-4 font-mono">
             Youtube Details
           </h2>
           <label htmlFor="username">Username:</label>
@@ -94,7 +94,9 @@ export default function Form({}: Props) {
         <button
           type="submit"
           disabled={formik.isSubmitting}
-          style={styles.submitBtn}
+          style={
+            formik.isSubmitting ? styles.disabledSubmitBtn : styles.submitBtn
+          }
         >
           Submit
         </button>
@@ -137,5 +139,15 @@ const styles = {
     cursor: "pointer",
     fontSize: "16px",
     width: "100%", // Ensure button takes full width
+  },
+  disabledSubmitBtn: {
+    backgroundColor: "#ccc",
+    color: "#666",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "not-allowed",
+    fontSize: "16px",
+    width: "100%",
   },
 };
