@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useFormik } from "formik";
-import { text } from "stream/consumers";
+import * as Yup from "yup";
 
 type Props = {};
 
@@ -13,6 +13,18 @@ export default function Form({}: Props) {
       password: "",
       confirmpassword: "",
     },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Username is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(6, "Password must be at least 6 characters"),
+      confirmpassword: Yup.string()
+        .oneOf([Yup.ref("password"), ""], "Passwords must match")
+        .required("Confirm Password is required"),
+    }),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -35,13 +47,12 @@ export default function Form({}: Props) {
             placeholder="Vinsmoke Sanji"
             value={formik.values.username}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             style={styles.input}
           />
-          {formik.errors.username && formik.touched.username ? (
+          {formik.touched.username && formik.errors.username ? (
             <p className="error">{formik.errors.username}</p>
-          ) : (
-            <p />
-          )}
+          ) : null}
         </div>
         <div style={styles.formGroup}>
           <label htmlFor="email">E-Mail:</label>
@@ -51,13 +62,12 @@ export default function Form({}: Props) {
             placeholder="sanji.thecook@xyzmail.com"
             value={formik.values.email}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             style={styles.input}
           />
-          {formik.errors.email && formik.touched.email ? (
+          {formik.touched.email && formik.errors.email ? (
             <p className="error">{formik.errors.email}</p>
-          ) : (
-            <p />
-          )}
+          ) : null}
         </div>
         <div style={styles.formGroup}>
           <label htmlFor="password">Password:</label>
@@ -67,13 +77,12 @@ export default function Form({}: Props) {
             placeholder="Enter your password"
             value={formik.values.password}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             style={styles.input}
           />
-          {formik.errors.password && formik.touched.password ? (
+          {formik.touched.password && formik.errors.password ? (
             <p className="error">{formik.errors.password}</p>
-          ) : (
-            <p />
-          )}
+          ) : null}
         </div>
         <div style={styles.formGroup}>
           <label htmlFor="confirmpassword">Confirm Password:</label>
@@ -83,13 +92,12 @@ export default function Form({}: Props) {
             placeholder="Confirm your password"
             value={formik.values.confirmpassword}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             style={styles.input}
           />
-          {formik.errors.confirmpassword && formik.touched.confirmpassword ? (
+          {formik.touched.confirmpassword && formik.errors.confirmpassword ? (
             <p className="error">{formik.errors.confirmpassword}</p>
-          ) : (
-            <p />
-          )}
+          ) : null}
         </div>
         <button
           type="submit"
@@ -138,7 +146,7 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     fontSize: "16px",
-    width: "100%", // Ensure button takes full width
+    width: "100%",
   },
   disabledSubmitBtn: {
     backgroundColor: "#ccc",
